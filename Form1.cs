@@ -97,8 +97,29 @@ namespace snake
             {
                 if(i == 0)
                 {
+                    snakeColour = Brushes.Black;
 
                 }
+                else
+                {
+                    snakeColour = Brushes.DarkGreen;
+                }
+                canvas.FillEllipse(snakeColour, new Rectangle
+                    (
+                     Snake[i].x * Settings.Width,
+                     Snake[i].y * Settings.Height,
+                     Settings.Width, Settings.Height
+
+                    )) ;
+
+
+                canvas.FillEllipse(Brushes.DarkRed, new Rectangle
+                    (
+                     food.x * Settings.Width,
+                     food.y * Settings.Height,
+                     Settings.Width, Settings.Height
+
+                    ));
 
             }
 
@@ -123,6 +144,7 @@ namespace snake
                 Snake.Add(body);
                 food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
                 gameTimer.Start();
+
 
 
            
