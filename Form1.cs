@@ -85,6 +85,27 @@ namespace snake
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
+            //setting the directions
+            if (goLeft)
+            {
+                Settings.directions = "left";
+            }
+            if (goRight)
+            {
+                Settings.directions = "righ";
+            }
+            if (GoDown)
+            {
+                Settings.directions = "down";
+            }
+            if (goUp)
+            {
+                Settings.directions = "up";
+            }
+            
+
+
+
 
         }
 
