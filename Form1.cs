@@ -102,8 +102,55 @@ namespace snake
             {
                 Settings.directions = "up";
             }
-            
+            // end of directions
 
+            for (int i = Snake.Count - 1; i >= 0; i--)
+            {
+                if ( i == 0)
+                {
+                    switch (Settings.directions)
+                    {
+                        case "left":
+                            Snake[i].x--;
+                            break;
+                        case "right":
+                            Snake[i].x++;
+                            break;
+                        case "down":
+                            Snake[i].y++;
+                            break;
+                        case "up":
+                            Snake[i].y--;
+                            break;
+                    }
+                    if (Snake[i].x < 0)
+                    {
+                        Snake[i].x = maxWidth;
+                    }
+                    if (Snake[i].x > maxWidth)
+                    {
+                        Snake[i].x = 0;
+                    }
+                    if (Snake[i].y < 0)
+                    {
+                        Snake[i].y = maxHeight;
+                    }
+                    if (Snake[i].y > maxHeight)
+                    {
+                        Snake[i].y = 0;
+                    }
+
+                }
+                else
+                {
+                    Snake[i].x = Snake[i - 1].x;
+                    Snake[i].y = Snake[i - 1].y;
+                } 
+            }
+
+            picCanvas.Invalidate();
+
+             
 
 
 
