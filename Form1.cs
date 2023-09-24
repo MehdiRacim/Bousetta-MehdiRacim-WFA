@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace snake
 {
     public partial class Form1 : Form
@@ -139,6 +141,20 @@ namespace snake
                     {
                         Snake[i].y = 0;
                     }
+                    
+                    if (Snake[i].x == food.x && Snake[i].y == food.y)
+                    {
+                        EatFood();
+                    }
+
+                    for (int j = 0; j < Snake.Count; j++)
+                    {
+                        if (Snake[i].x == Snake[j].x && Snake[i].y == Snake[j].y)
+                        {
+                            GameOver();
+
+                        }
+                    }
 
                 }
                 else
@@ -231,6 +247,20 @@ namespace snake
 
         private void EatFood()
         {
+            score += 1;
+
+            txtScore.Text = "Score: " + score;
+            Circle body = new Circle
+            {
+                x = Snake[Snake.Count - 1].x,
+                y = Snake[Snake.Count - 1].y
+            };
+            Snake.Add(body);
+
+            food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
+
+
+
 
         }
 
