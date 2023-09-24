@@ -147,7 +147,7 @@ namespace snake
                         EatFood();
                     }
 
-                    for (int j = 0; j < Snake.Count; j++)
+                    for (int j = 1; j < Snake.Count; j++)
                     {
                         if (Snake[i].x == Snake[j].x && Snake[i].y == Snake[j].y)
                         {
@@ -266,6 +266,19 @@ namespace snake
 
         private void GameOver()
         {
+            gameTimer.Stop();
+            StartButton.Enabled = true;
+            SnapButton.Enabled = true;
+
+            if (score > highscore)
+            {
+                highscore = score;
+                txtHighScore.Text = "highscore :" + Environment.NewLine + score;
+                txtHighScore.ForeColor = Color.Maroon;
+                txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
+            }
+
+
 
         }
 
