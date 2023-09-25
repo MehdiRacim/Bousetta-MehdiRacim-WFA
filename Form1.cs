@@ -34,12 +34,18 @@ namespace snake
 
 
 
+
+
+
+
         public Form1()
         {
             InitializeComponent();
 
+
             new Settings();
         }
+        
 
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
@@ -86,7 +92,9 @@ namespace snake
 
         private void StartGame(object sender, EventArgs e)
         {
+            difficultyComboBox.Enabled = false;
             RestartGame();
+            Difficulty();
 
         }
 
@@ -143,7 +151,7 @@ namespace snake
 
             for (int i = Snake.Count - 1; i >= 0; i--)
             {
-                if ( i == 0)
+                if (i == 0)
                 {
                     switch (Settings.directions)
                     {
@@ -176,7 +184,7 @@ namespace snake
                     {
                         Snake[i].y = 0;
                     }
-                    
+
                     if (Snake[i].x == food.x && Snake[i].y == food.y)
                     {
                         EatFood();
@@ -196,12 +204,12 @@ namespace snake
                 {
                     Snake[i].x = Snake[i - 1].x;
                     Snake[i].y = Snake[i - 1].y;
-                } 
+                }
             }
 
             picCanvas.Invalidate();
 
-             
+
 
 
 
@@ -214,7 +222,7 @@ namespace snake
 
             for (int i = 0; i < Snake.Count; i++)
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     snakeColour = Brushes.Black;
 
@@ -229,15 +237,12 @@ namespace snake
                      Snake[i].y * Settings.Height,
                      Settings.Width, Settings.Height
 
-                    )) ;
-
-
-                canvas.FillEllipse(Brushes.DarkRed, new Rectangle
+                    ));
+                canvas.FillEllipse(Brushes.Red, new Rectangle
                     (
-                     food.x * Settings.Width,
-                     food.y * Settings.Height,
-                     Settings.Width, Settings.Height
-
+                        food.x * Settings.Width,
+                        food.y * Settings.Height,
+                        Settings.Width, Settings.Height
                     ));
 
             }
@@ -257,29 +262,14 @@ namespace snake
             txtScore.Text = "Score: " + score;
             Circle head = new Circle { x = 10, y = 5 };
             Snake.Add(head);
-            for (int i = 0; i <10; i++ )
+            for (int i = 0; i < 10; i++)
             {
                 Circle body = new Circle();
                 Snake.Add(body);
                 food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
                 gameTimer.Start();
-
-
-
-           
             }
-            
-
-
-            
-           
-
-          
-
-
-
         }
-
         private void EatFood()
         {
             score += 1;
@@ -305,6 +295,8 @@ namespace snake
             StartButton.Enabled = true;
             SnapButton.Enabled = true;
 
+            difficultyComboBox.Enabled = true;
+
             if (score > highscore)
             {
                 highscore = score;
@@ -315,6 +307,24 @@ namespace snake
 
 
 
+        }
+        private void Difficulty()
+        {
+            if (difficultyComboBox.SelectedIndex == 0)
+            {
+                gameTimer.Interval = 50;
+
+            }
+            if (difficultyComboBox.SelectedIndex == 1)
+            {
+                gameTimer.Interval = 30;
+
+            }
+            if (difficultyComboBox.SelectedIndex == 2)
+            {
+                gameTimer.Interval = 10;
+
+            }
         }
 
 
