@@ -1,4 +1,14 @@
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
+
 
 namespace snake
 {
@@ -82,6 +92,31 @@ namespace snake
 
         private void TakeSnapshot(object sender, EventArgs e)
         {
+            Label caption = new Label();
+            caption.Text = " i scored" + score + "and my highscore :" + highscore + "on the snake game";
+            caption.Font = new Font("Ariel", 12, FontStyle.Bold);
+            caption.ForeColor = Color.LightBlue;
+            caption.AutoSize = false;
+            caption.Width = picCanvas.Width;
+            caption.Height = 30;
+            caption.TextAlign = ContentAlignment.MiddleCenter;
+            picCanvas.Controls.Add(caption);
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.FileName = "snake game snapshot";
+            dialog.DefaultExt = "jpg";
+            dialog.Filter = "JPG File |*.jpg";
+            dialog.ValidateNames = true;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                int width = Convert.ToInt32(picCanvas.Width);
+                int height = Convert.ToInt32(picCanvas.Height);
+                Bitmap bmp = new Bitmap(width, height);
+                picCanvas.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
+                bmp.Save(dialog.FileName, ImageFormat.Jpeg);
+                picCanvas.Controls.Remove(caption);
+            }
 
         }
 
@@ -94,7 +129,7 @@ namespace snake
             }
             if (goRight)
             {
-                Settings.directions = "righ";
+                Settings.directions = "right";
             }
             if (GoDown)
             {
