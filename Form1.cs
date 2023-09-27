@@ -27,6 +27,7 @@ namespace snake
 
         int score;
         int highscore;
+        private string previousDirection;
 
 
 
@@ -45,7 +46,7 @@ namespace snake
 
             new Settings();
         }
-        
+
 
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
@@ -130,6 +131,7 @@ namespace snake
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
+            previousDirection = Settings.directions;
             //setting the directions
             if (goLeft)
             {
@@ -146,7 +148,9 @@ namespace snake
             if (goUp)
             {
                 Settings.directions = "up";
+      
             }
+            
             // end of directions
 
             for (int i = Snake.Count - 1; i >= 0; i--)
@@ -189,6 +193,7 @@ namespace snake
                     {
                         EatFood();
                     }
+                    
 
                     for (int j = 1; j < Snake.Count; j++)
                     {
@@ -208,46 +213,105 @@ namespace snake
             }
 
             picCanvas.Invalidate();
-
-
-
-
-
         }
-
         private void UpdatePictureBoxGraphics(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
-            Brush snakeColour;
+            Image snakeBody = null;
+            Image snakeHead = null;
+            Image snakeTail = null;
+            Image apple = Properties.Resources.apple;
 
             for (int i = 0; i < Snake.Count; i++)
             {
                 if (i == 0)
                 {
-                    snakeColour = Brushes.Black;
+                    if (Settings.directions == "right")
+                    {
+                        snakeHead = Properties.Resources.head_right;
+                    }
+                    if (Settings.directions == "left")
+                    {
+                        snakeHead = Properties.Resources.head_left;
+                    }
+                    if (Settings.directions == "up")
+                    {
+                        snakeHead = Properties.Resources.head_up;
+                    }
+                    if (Settings.directions == "down")
+                    {
+                        snakeHead = Properties.Resources.head_down;
+                    }
 
-                }
-                else
-                {
-                    snakeColour = Brushes.DarkGreen;
-                }
-                canvas.FillEllipse(snakeColour, new Rectangle
-                    (
-                     Snake[i].x * Settings.Width,
-                     Snake[i].y * Settings.Height,
-                     Settings.Width, Settings.Height
-
-                    ));
-                canvas.FillEllipse(Brushes.Red, new Rectangle
-                    (
-                        food.x * Settings.Width,
-                        food.y * Settings.Height,
+                    canvas.DrawImage(snakeHead, new Rectangle(
+                        Snake[i].x * Settings.Width,
+                        Snake[i].y * Settings.Height,
                         Settings.Width, Settings.Height
                     ));
+                }
+                else if (i < Snake.Count - 1)
+                {
+                    if (Settings.directions == "left")
+                    {
+                        snakeBody = Properties.Resources.body_horizontal;
+                    }
+                    if (Settings.directions == "right")
+                    {
+                        snakeBody = Properties.Resources.body_horizontal;
+                    }
+                    if (Settings.directions == "up")
+                    {
+                        snakeBody = Properties.Resources.body_vertical;
+                    }
+                    if (Settings.directions == "down")
+                    {
+                        snakeBody = Properties.Resources.body_vertical;
+                    }
 
+                    canvas.DrawImage(snakeBody, new Rectangle(
+                        Snake[i].x * Settings.Width,
+                        Snake[i].y * Settings.Height,
+                        Settings.Width, Settings.Height
+                    ));
+                }
+                else if (i == Snake.Count - 1)
+                {
+                    switch (Settings.directions)
+                    {
+                        case "left":
+                            snakeTail = Properties.Resources.tail_right;
+                            break;
+                        case "right":
+                            snakeTail = Properties.Resources.tail_left;
+                            break;
+                        case "up":
+                            snakeTail = Properties.Resources.tail_down;
+                            break;
+                        case "down":
+                            snakeTail = Properties.Resources.tail_up;
+                            break;
+                    }
+
+                    canvas.DrawImage(snakeTail, new Rectangle(
+                        Snake[i].x * Settings.Width,
+                        Snake[i].y * Settings.Height,
+                        Settings.Width, Settings.Height
+                    ));
+                }
             }
 
+            canvas.DrawImage(apple, new Rectangle(
+                food.x * Settings.Width,
+                food.y * Settings.Height,
+                Settings.Width, Settings.Height
+            ));
         }
+
+
+
+
+
+
 
         private void RestartGame()
         {
