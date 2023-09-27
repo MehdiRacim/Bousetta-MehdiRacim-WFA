@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,47 +9,31 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 
-
 namespace snake
 {
     public partial class Form1 : Form
     {
-
+        // Déclarations de variables membres
         private List<SnakePart> Snake = new List<SnakePart>();
         private Circle food = new Circle();
-
         int maxWidth;
         int maxHeight;
-
         Random rand = new Random();
-
         bool goLeft, goRight, GoDown, goUp;
-
         int score;
         int highscore;
         private string previousDirection;
 
-
-
-
-
-
-
-
-
-
-
         public Form1()
         {
             InitializeComponent();
-
-
             new Settings();
         }
 
-
+        // Gestionnaires d'événements
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
+            // Gestion des touches enfoncées
             if (e.KeyCode == Keys.Left && Settings.directions != "right")
             {
                 goLeft = true;
@@ -66,12 +50,11 @@ namespace snake
             {
                 GoDown = true;
             }
-
         }
 
         private void KeyIsUp(object sender, KeyEventArgs e)
         {
-
+            // Gestion des touches relâchées
             if (e.KeyCode == Keys.Left)
             {
                 goLeft = false;
@@ -88,19 +71,19 @@ namespace snake
             {
                 GoDown = false;
             }
-
         }
 
         private void StartGame(object sender, EventArgs e)
         {
+            // Début du jeu
             difficultyComboBox.Enabled = false;
             RestartGame();
             Difficulty();
-
         }
 
         private void TakeSnapshot(object sender, EventArgs e)
         {
+            // Prise de capture d'écran du jeu
             Label caption = new Label();
             caption.Text = " i scored" + score + "and my highscore :" + highscore + "on the snake game";
             caption.Font = new Font("Ariel", 12, FontStyle.Bold);
@@ -126,13 +109,13 @@ namespace snake
                 bmp.Save(dialog.FileName, ImageFormat.Jpeg);
                 picCanvas.Controls.Remove(caption);
             }
-
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
             previousDirection = Settings.directions;
-            //setting the directions
+
+            // Gestion du déplacement du serpent
             if (goLeft)
             {
                 Settings.directions = "left";
@@ -148,15 +131,13 @@ namespace snake
             if (goUp)
             {
                 Settings.directions = "up";
-
             }
-
-            // end of directions
 
             for (int i = Snake.Count - 1; i >= 0; i--)
             {
                 if (i == 0)
                 {
+                    // Déplacement de la tête du serpent
                     switch (Settings.directions)
                     {
                         case "left":
@@ -172,6 +153,7 @@ namespace snake
                             Snake[i].Y--;
                             break;
                     }
+                    // Gestion des bords de l'écran
                     if (Snake[i].X < 0)
                     {
                         Snake[i].X = maxWidth;
@@ -189,24 +171,24 @@ namespace snake
                         Snake[i].Y = 0;
                     }
 
+                    // Gestion de la collision avec la nourriture
                     if (Snake[i].X == food.x && Snake[i].Y == food.y)
                     {
                         EatFood();
                     }
 
-
+                    // Gestion de la collision avec le corps du serpent
                     for (int j = 1; j < Snake.Count; j++)
                     {
                         if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
                         {
                             GameOver();
-
                         }
                     }
-
                 }
                 else
                 {
+                    // Déplacement du corps du serpent
                     Snake[i].X = Snake[i - 1].X;
                     Snake[i].Y = Snake[i - 1].Y;
                 }
@@ -214,8 +196,10 @@ namespace snake
 
             picCanvas.Invalidate();
         }
+
         private void UpdatePictureBoxGraphics(object sender, PaintEventArgs e)
         {
+            // Mise à jour de l'affichage du jeu
             Graphics canvas = e.Graphics;
             Image snakeBody = null;
             Image snakeHead = null;
@@ -226,6 +210,7 @@ namespace snake
             {
                 if (i == 0)
                 {
+                    // Affichage de la tête du serpent
                     if (Settings.directions == "right")
                     {
                         snakeHead = Properties.Resources.head_right;
@@ -251,19 +236,20 @@ namespace snake
                 }
                 else if (i < Snake.Count - 1)
                 {
-                    if (Settings.directions == "left")
+                    // Affichage du corps du serpent
+                    if (previousDirection == "left")
                     {
                         snakeBody = Properties.Resources.body_horizontal;
                     }
-                    if (Settings.directions == "right")
+                    if (previousDirection == "right")
                     {
                         snakeBody = Properties.Resources.body_horizontal;
                     }
-                    if (Settings.directions == "up")
+                    if (previousDirection == "up")
                     {
                         snakeBody = Properties.Resources.body_vertical;
                     }
-                    if (Settings.directions == "down")
+                    if (previousDirection == "down")
                     {
                         snakeBody = Properties.Resources.body_vertical;
                     }
@@ -276,7 +262,8 @@ namespace snake
                 }
                 else if (i == Snake.Count - 1)
                 {
-                    switch (Settings.directions)
+                    // Affichage de la queue du serpent
+                    switch (previousDirection)
                     {
                         case "left":
                             snakeTail = Properties.Resources.tail_right;
@@ -300,6 +287,7 @@ namespace snake
                 }
             }
 
+            // Affichage de la nourriture
             canvas.DrawImage(apple, new Rectangle(
                 food.x * Settings.Width,
                 food.y * Settings.Height,
@@ -307,19 +295,10 @@ namespace snake
             ));
         }
 
-
-
-
-
-
-
-
-
-
-
-
+        // Autres méthodes
         private void RestartGame()
         {
+            // Réinitialisation du jeu
             maxWidth = picCanvas.Width / Settings.Width - 1;
             maxHeight = picCanvas.Height / Settings.Height - 1;
 
@@ -333,8 +312,8 @@ namespace snake
             {
                 X = 10,
                 Y = 5,
-                Direction = "right", // D�finissez la direction initiale
-                Image = Properties.Resources.head_right // Remplacez par l'image de la t�te orient�e vers la droite
+                Direction = "right", // Définissez la direction initiale
+                Image = Properties.Resources.head_right // Remplacez par l'image de la tête orientée vers la droite
             };
             Snake.Add(head);
             for (int i = 0; i < 10; i++)
@@ -345,18 +324,20 @@ namespace snake
                 gameTimer.Start();
             }
         }
+
         private void EatFood()
         {
+            // Gestion de la collision avec la nourriture
             score += 1;
             txtScore.Text = "Score: " + score;
 
-            // Cr�ez un nouveau segment du corps en utilisant la classe SnakePart
+            // Créez un nouveau segment du corps en utilisant la classe SnakePart
             SnakePart body = new SnakePart
             {
                 X = Snake[Snake.Count - 1].X,
                 Y = Snake[Snake.Count - 1].Y,
                 Direction = Snake[Snake.Count - 1].Direction, // Copiez la direction du dernier segment
-                Image = Properties.Resources.body_horizontal // Remplacez par l'image appropri�e pour le corps
+                Image = Properties.Resources.body_horizontal // Remplacez par l'image appropriée pour le corps
             };
 
             Snake.Add(body);
@@ -364,9 +345,9 @@ namespace snake
             food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
         }
 
-
         private void GameOver()
         {
+            // Gestion de la fin de partie
             gameTimer.Stop();
             StartButton.Enabled = true;
             SnapButton.Enabled = true;
@@ -380,29 +361,23 @@ namespace snake
                 txtHighScore.ForeColor = Color.Maroon;
                 txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
             }
-
-
-
         }
+
         private void Difficulty()
         {
+            // Gestion de la difficulté du jeu
             if (difficultyComboBox.SelectedIndex == 0)
             {
                 gameTimer.Interval = 50;
-
             }
             if (difficultyComboBox.SelectedIndex == 1)
             {
                 gameTimer.Interval = 30;
-
             }
             if (difficultyComboBox.SelectedIndex == 2)
             {
                 gameTimer.Interval = 10;
-
             }
         }
-
-
     }
 }
