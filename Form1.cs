@@ -15,7 +15,7 @@ namespace snake
     public partial class Form1 : Form
     {
 
-        private List<Circle> Snake = new List<Circle>();
+        private List<SnakePart> Snake = new List<SnakePart>();
         private Circle food = new Circle();
 
         int maxWidth;
@@ -148,9 +148,9 @@ namespace snake
             if (goUp)
             {
                 Settings.directions = "up";
-      
+
             }
-            
+
             // end of directions
 
             for (int i = Snake.Count - 1; i >= 0; i--)
@@ -160,44 +160,44 @@ namespace snake
                     switch (Settings.directions)
                     {
                         case "left":
-                            Snake[i].x--;
+                            Snake[i].X--;
                             break;
                         case "right":
-                            Snake[i].x++;
+                            Snake[i].X++;
                             break;
                         case "down":
-                            Snake[i].y++;
+                            Snake[i].Y++;
                             break;
                         case "up":
-                            Snake[i].y--;
+                            Snake[i].Y--;
                             break;
                     }
-                    if (Snake[i].x < 0)
+                    if (Snake[i].X < 0)
                     {
-                        Snake[i].x = maxWidth;
+                        Snake[i].X = maxWidth;
                     }
-                    if (Snake[i].x > maxWidth)
+                    if (Snake[i].X > maxWidth)
                     {
-                        Snake[i].x = 0;
+                        Snake[i].X = 0;
                     }
-                    if (Snake[i].y < 0)
+                    if (Snake[i].Y < 0)
                     {
-                        Snake[i].y = maxHeight;
+                        Snake[i].Y = maxHeight;
                     }
-                    if (Snake[i].y > maxHeight)
+                    if (Snake[i].Y > maxHeight)
                     {
-                        Snake[i].y = 0;
+                        Snake[i].Y = 0;
                     }
 
-                    if (Snake[i].x == food.x && Snake[i].y == food.y)
+                    if (Snake[i].X == food.x && Snake[i].Y == food.y)
                     {
                         EatFood();
                     }
-                    
+
 
                     for (int j = 1; j < Snake.Count; j++)
                     {
-                        if (Snake[i].x == Snake[j].x && Snake[i].y == Snake[j].y)
+                        if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
                         {
                             GameOver();
 
@@ -207,8 +207,8 @@ namespace snake
                 }
                 else
                 {
-                    Snake[i].x = Snake[i - 1].x;
-                    Snake[i].y = Snake[i - 1].y;
+                    Snake[i].X = Snake[i - 1].X;
+                    Snake[i].Y = Snake[i - 1].Y;
                 }
             }
 
@@ -244,8 +244,8 @@ namespace snake
                     }
 
                     canvas.DrawImage(snakeHead, new Rectangle(
-                        Snake[i].x * Settings.Width,
-                        Snake[i].y * Settings.Height,
+                        Snake[i].X * Settings.Width,
+                        Snake[i].Y * Settings.Height,
                         Settings.Width, Settings.Height
                     ));
                 }
@@ -269,8 +269,8 @@ namespace snake
                     }
 
                     canvas.DrawImage(snakeBody, new Rectangle(
-                        Snake[i].x * Settings.Width,
-                        Snake[i].y * Settings.Height,
+                        Snake[i].X * Settings.Width,
+                        Snake[i].Y * Settings.Height,
                         Settings.Width, Settings.Height
                     ));
                 }
@@ -293,8 +293,8 @@ namespace snake
                     }
 
                     canvas.DrawImage(snakeTail, new Rectangle(
-                        Snake[i].x * Settings.Width,
-                        Snake[i].y * Settings.Height,
+                        Snake[i].X * Settings.Width,
+                        Snake[i].Y * Settings.Height,
                         Settings.Width, Settings.Height
                     ));
                 }
@@ -313,6 +313,11 @@ namespace snake
 
 
 
+
+
+
+
+
         private void RestartGame()
         {
             maxWidth = picCanvas.Width / Settings.Width - 1;
@@ -324,11 +329,17 @@ namespace snake
             SnapButton.Enabled = false;
             score = 0;
             txtScore.Text = "Score: " + score;
-            Circle head = new Circle { x = 10, y = 5 };
+            SnakePart head = new SnakePart
+            {
+                X = 10,
+                Y = 5,
+                Direction = "right", // Définissez la direction initiale
+                Image = Properties.Resources.head_right // Remplacez par l'image de la tête orientée vers la droite
+            };
             Snake.Add(head);
             for (int i = 0; i < 10; i++)
             {
-                Circle body = new Circle();
+                SnakePart body = new SnakePart();
                 Snake.Add(body);
                 food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
                 gameTimer.Start();
@@ -337,21 +348,22 @@ namespace snake
         private void EatFood()
         {
             score += 1;
-
             txtScore.Text = "Score: " + score;
-            Circle body = new Circle
+
+            // Créez un nouveau segment du corps en utilisant la classe SnakePart
+            SnakePart body = new SnakePart
             {
-                x = Snake[Snake.Count - 1].x,
-                y = Snake[Snake.Count - 1].y
+                X = Snake[Snake.Count - 1].X,
+                Y = Snake[Snake.Count - 1].Y,
+                Direction = Snake[Snake.Count - 1].Direction, // Copiez la direction du dernier segment
+                Image = Properties.Resources.body_horizontal // Remplacez par l'image appropriée pour le corps
             };
+
             Snake.Add(body);
 
             food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
-
-
-
-
         }
+
 
         private void GameOver()
         {
