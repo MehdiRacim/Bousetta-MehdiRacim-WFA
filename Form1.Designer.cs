@@ -67,8 +67,8 @@
             // 
             // picCanvas
             // 
-            picCanvas.BackColor = Color.Silver;
-            picCanvas.Location = new Point(10, 10);
+            picCanvas.BackColor = Color.Beige;
+            picCanvas.Location = new Point(11, 10);
             picCanvas.Margin = new Padding(2);
             picCanvas.Name = "picCanvas";
             picCanvas.Size = new Size(464, 544);

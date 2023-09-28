@@ -295,7 +295,7 @@ namespace snake
             ));
         }
 
-        // Autres méthodes
+        
         private void RestartGame()
         {
             // Réinitialisation du jeu
