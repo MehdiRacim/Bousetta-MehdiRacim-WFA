@@ -295,7 +295,7 @@ namespace snake
             ));
         }
 
-        
+
         private void RestartGame()
         {
             // Réinitialisation du jeu
@@ -361,6 +361,7 @@ namespace snake
                 txtHighScore.ForeColor = Color.Maroon;
                 txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
             }
+            MessageBox.Show("Game Over! Your Score: " + score, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void Difficulty()

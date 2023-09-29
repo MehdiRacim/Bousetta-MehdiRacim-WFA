@@ -79,20 +79,22 @@
             // txtScore
             // 
             txtScore.AutoSize = true;
+            txtScore.Font = new Font("Algerian", 12F, FontStyle.Bold, GraphicsUnit.Point);
             txtScore.Location = new Point(478, 138);
             txtScore.Margin = new Padding(2, 0, 2, 0);
             txtScore.Name = "txtScore";
-            txtScore.Size = new Size(61, 20);
+            txtScore.Size = new Size(100, 22);
             txtScore.TabIndex = 3;
             txtScore.Text = "Score: 0";
             // 
             // txtHighScore
             // 
             txtHighScore.AutoSize = true;
-            txtHighScore.Location = new Point(478, 166);
+            txtHighScore.Font = new Font("Algerian", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            txtHighScore.Location = new Point(478, 182);
             txtHighScore.Margin = new Padding(2, 0, 2, 0);
             txtHighScore.Name = "txtHighScore";
-            txtHighScore.Size = new Size(82, 20);
+            txtHighScore.Size = new Size(117, 20);
             txtHighScore.TabIndex = 4;
             txtHighScore.Text = "High Score";
             // 
@@ -110,6 +112,7 @@
             difficultyComboBox.Name = "difficultyComboBox";
             difficultyComboBox.Size = new Size(151, 28);
             difficultyComboBox.TabIndex = 5;
+            difficultyComboBox.Tag = "difficulté";
             // 
             // Form1
             // 
