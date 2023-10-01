@@ -152,6 +152,16 @@ namespace snake.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap goldenapple {
+            get {
+                object obj = ResourceManager.GetObject("goldenapple", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap head_down {
             get {
                 object obj = ResourceManager.GetObject("head_down", resourceCulture);

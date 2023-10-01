@@ -17,6 +17,7 @@ namespace snake
         // Déclarations de variables membres
         private List<SnakePart> Snake = new List<SnakePart>();
         private Circle food = new Circle();
+        private Circle GoldenApple = new Circle();
         int maxWidth;
         int maxHeight;
         Random rand = new Random();
@@ -27,6 +28,10 @@ namespace snake
         private Enemy enemy;
         private SoundPlayer player;
         private SoundPlayer gameOverPlayer;
+        private GoldenApple goldenApple = new GoldenApple();
+        private System.Threading.Timer goldenAppleTimer;
+
+
 
         public int MaxWidth
         {
@@ -37,8 +42,6 @@ namespace snake
         {
             get { return picCanvas.Height / Settings.Height - 1; }
         }
-
-
         public Form1()
         {
             InitializeComponent();
@@ -46,6 +49,8 @@ namespace snake
             enemy = new Enemy(MaxWidth, MaxHeight);
             player = new SoundPlayer(Properties.Resources.Snake_Baron);
             gameOverPlayer = new SoundPlayer(Properties.Resources.GameOver);
+            // Initialisation du minuteur de la pomme dorée
+            goldenAppleTimer = new System.Threading.Timer(GoldenAppleTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
 
 
 
@@ -215,6 +220,13 @@ namespace snake
                             GameOver();
                         }
                     }
+                    if(goldenApple.IsDisplayed)
+    {
+                        if (Snake[0].X == goldenApple.X && Snake[0].Y == goldenApple.Y)
+                        {
+                            EatGoldenApple();
+                        }
+                    }
                 }
                 else
                 {
@@ -339,6 +351,15 @@ namespace snake
                 enemy.B * Settings.Height,
                 Settings.Width, Settings.Height
             ));
+            Image goldenAppleImage = Properties.Resources.goldenapple;
+            if (goldenApple.IsDisplayed)
+            {
+                canvas.DrawImage(goldenAppleImage, new Rectangle(
+                    goldenApple.X * Settings.Width,
+                    goldenApple.Y * Settings.Height,
+                    Settings.Width, Settings.Height
+                ));
+            }
         }
 
 
@@ -406,6 +427,10 @@ namespace snake
 
                 // Réinitialisez le compteur de pommes mangées
                 applesEatenSinceLastPassage = 0;
+            }
+            if (score % 10 == 0)
+            {
+                ShowGoldenApple();
             }
         }
 
@@ -492,6 +517,57 @@ namespace snake
                 enemy.B = rand.Next(2, maxHeight);
             } while (IsPositionOccupiedBySnake(enemy.A, enemy.B));
         }
+        private void GoldenAppleTimerCallback(object state)
+        {
+            goldenApple.IsDisplayed = false;
+        }
+
+        private void ShowGoldenApple()
+        {
+            do
+            {
+                // Générez une nouvelle position pour la pomme dorée
+                goldenApple.X = rand.Next(2, maxWidth);
+                goldenApple.Y = rand.Next(2, maxHeight);
+            } while (IsPositionOccupiedBySnake(goldenApple.X, goldenApple.Y));
+
+            goldenApple.IsDisplayed = true;
+
+            // Démarrez le minuteur pour faire disparaître la pomme dorée après 5 secondes (5000 millisecondes)
+            goldenAppleTimer.Change(5000, Timeout.Infinite);
+        }
+        private void EatGoldenApple()
+        {
+            score += 3;
+            txtScore.Text = "Score: " + score;
+            // Augmentez la longueur du serpent de 3 segments
+            for (int i = 0; i < 3; i++)
+            {
+                SnakePart body = new SnakePart
+                {
+                    X = Snake[Snake.Count - 1].X,
+                    Y = Snake[Snake.Count - 1].Y,
+                    Direction = Snake[Snake.Count - 1].Direction,
+                    Image = Properties.Resources.body_horizontal
+                };
+
+                Snake.Add(body);
+                
+            }
+
+            // Faites disparaître la pomme dorée
+            goldenApple.IsDisplayed = false;
+
+            // Réinitialisez le minuteur de la pomme dorée pour qu'elle réapparaisse plus tard
+            goldenAppleTimer.Change(rand.Next(10000, 20000), Timeout.Infinite);
+        }
+
+
+
+
+
+
+
 
 
 
