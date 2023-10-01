@@ -23,12 +23,25 @@ namespace snake
         int score;
         int highscore;
         private string previousDirection;
+        private Enemy enemy;
+        public int MaxWidth
+        {
+            get { return picCanvas.Width / Settings.Width - 1; }
+        }
+
+        public int MaxHeight
+        {
+            get { return picCanvas.Height / Settings.Height - 1; }
+        }
+        
 
         public Form1()
         {
             InitializeComponent();
             new Settings();
+            enemy = new Enemy(MaxWidth, MaxHeight);
         }
+        
 
         // Gestionnaires d'événements
         private void KeyIsDown(object sender, KeyEventArgs e)
@@ -110,6 +123,7 @@ namespace snake
                 picCanvas.Controls.Remove(caption);
             }
         }
+        
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
@@ -176,6 +190,12 @@ namespace snake
                     {
                         EatFood();
                     }
+                    
+                    if (Snake[i].X == enemy.A && Snake[i].Y == enemy.B)
+                    {
+                        GameOver(); // Appel à la fonction GameOver en cas de collision avec l'ennemi
+                        return; // Sortez de la boucle, la partie est terminée
+                    }
 
                     // Gestion de la collision avec le corps du serpent
                     for (int j = 1; j < Snake.Count; j++)
@@ -193,6 +213,10 @@ namespace snake
                     Snake[i].Y = Snake[i - 1].Y;
                 }
             }
+           
+
+            
+            
 
             picCanvas.Invalidate();
         }
@@ -205,6 +229,7 @@ namespace snake
             Image snakeHead = null;
             Image snakeTail = null;
             Image apple = Properties.Resources.apple;
+            Image enemyImage = Properties.Resources.enemy2;
 
             for (int i = 0; i < Snake.Count; i++)
             {
@@ -293,6 +318,11 @@ namespace snake
                 food.y * Settings.Height,
                 Settings.Width, Settings.Height
             ));
+            canvas.DrawImage(enemyImage, new Rectangle(
+                enemy.A * Settings.Width,
+                enemy.B * Settings.Height,
+                Settings.Width, Settings.Height
+            ));
         }
 
 
@@ -323,7 +353,9 @@ namespace snake
                 food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
                 gameTimer.Start();
             }
+            enemy.InitializePositionAndDirection();
         }
+        private int applesEatenSinceLastPassage = 0;
 
         private void EatFood()
         {
@@ -343,6 +375,17 @@ namespace snake
             Snake.Add(body);
 
             food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
+            applesEatenSinceLastPassage++;
+
+            // Vérifiez si 5 pommes ont été mangées
+            if (applesEatenSinceLastPassage >= 5)
+            {
+                // Réinitialisez la position et la direction de l'ennemi
+                enemy.InitializePositionAndDirection();
+
+                // Réinitialisez le compteur de pommes mangées
+                applesEatenSinceLastPassage = 0;
+            }
         }
 
         private void GameOver()
@@ -351,6 +394,8 @@ namespace snake
             gameTimer.Stop();
             StartButton.Enabled = true;
             SnapButton.Enabled = true;
+            applesEatenSinceLastPassage = 0;
+
 
             difficultyComboBox.Enabled = true;
 
@@ -363,6 +408,7 @@ namespace snake
             }
             MessageBox.Show("Game Over! Your Score: " + score, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
 
         private void Difficulty()
         {
