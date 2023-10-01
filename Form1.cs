@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Media;
 
 namespace snake
 {
@@ -24,6 +25,9 @@ namespace snake
         int highscore;
         private string previousDirection;
         private Enemy enemy;
+        private SoundPlayer player;
+        private SoundPlayer gameOverPlayer;
+        
         public int MaxWidth
         {
             get { return picCanvas.Width / Settings.Width - 1; }
@@ -40,6 +44,11 @@ namespace snake
             InitializeComponent();
             new Settings();
             enemy = new Enemy(MaxWidth, MaxHeight);
+            player = new SoundPlayer(Properties.Resources.Snake_Baron);
+            gameOverPlayer = new SoundPlayer(Properties.Resources.GameOver);
+
+
+
         }
         
 
@@ -92,6 +101,7 @@ namespace snake
             difficultyComboBox.Enabled = false;
             RestartGame();
             Difficulty();
+            player.Play();
         }
 
         private void TakeSnapshot(object sender, EventArgs e)
@@ -213,10 +223,16 @@ namespace snake
                     Snake[i].Y = Snake[i - 1].Y;
                 }
             }
-           
+            if (CheckWinCondition())
+            {
+                // Le joueur a gagné
+                GameWin();
+                return; // Sortez de la boucle, la partie est terminée
+            }
 
-            
-            
+
+
+
 
             picCanvas.Invalidate();
         }
@@ -354,6 +370,7 @@ namespace snake
                 gameTimer.Start();
             }
             enemy.InitializePositionAndDirection();
+            gameOverPlayer.Stop();
         }
         private int applesEatenSinceLastPassage = 0;
 
@@ -405,6 +422,9 @@ namespace snake
                 txtHighScore.Text = "highscore :" + Environment.NewLine + score;
                 txtHighScore.ForeColor = Color.Maroon;
                 txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
+
+                
+                gameOverPlayer.Play();
             }
             MessageBox.Show("Game Over! Your Score: " + score, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -426,5 +446,29 @@ namespace snake
                 gameTimer.Interval = 10;
             }
         }
+        private bool CheckWinCondition()
+        {
+            // Calculez le nombre total de cases sur l'écran
+            int totalGridCells = (maxWidth + 1) * (maxHeight + 1);
+
+            // Calculez le nombre de cases occupées par le serpent, la nourriture et l'ennemi
+            int occupiedCells = Snake.Count + 1; // Compte les cases du serpent et de la nourriture
+            occupiedCells += 1; // Ajoutez une case pour l'ennemi (ou plus si nécessaire)
+
+            // Vérifiez si le nombre de cases occupées est égal au nombre total de cases
+            return occupiedCells >= totalGridCells;
+        }
+        private void GameWin()
+        {
+            gameTimer.Stop();
+            StartButton.Enabled = true;
+            SnapButton.Enabled = true;
+            difficultyComboBox.Enabled = true;
+
+            MessageBox.Show("Congratulations! You won the game!", "Game Won", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+
     }
 }

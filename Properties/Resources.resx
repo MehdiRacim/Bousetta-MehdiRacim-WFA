@@ -142,6 +142,9 @@
   <data name="enemy2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\enemy2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GameOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GameOver.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="head_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\head_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -153,6 +156,9 @@
   </data>
   <data name="head_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\head_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Snake_Baron" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Snake-Baron.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="tail_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tail_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
