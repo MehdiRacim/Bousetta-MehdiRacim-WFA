@@ -1,0 +1,66 @@
+Snake Game en C# avec Windows Forms :
+
+introduction : 
+
+Ce projet est une implémentation simple du célèbre jeu Snake en utilisant le framework Windows Forms application de C#.
+Le jeu consiste à contrôler un serpent pour manger des pommes tout en évitant les collisions avec les bords de l'écran, 
+le corps du serpent et un ennemi.
+
+Étape 1 : Initialisation du projet
+
+Créez un nouveau projet Windows Forms dans votre environnement de développement intégré (IDE) préféré, tel que Visual Studio.
+Ajout d'un formulaire Windows Forms à votre projet, qui servira de toile de jeu.
+
+Étape 2 : Création des classes
+
+Créez des classes pour les principaux éléments du jeu : le serpent (SnakePart), la nourriture (Circle), l'ennemi (Enemy), et la pomme dorée (GoldenApple).
+
+Étape 3 : Gestion des déplacements
+
+Gérez les déplacements du serpent en réponse aux touches directionnelles (haut, bas, gauche, droite).
+le serpent ne peux pas revenir sur ses pas en utilisant la variable previousDirection.
+
+Étape 4 : Ajout de la nourriture
+
+Générez aléatoirement des positions pour la nourriture et affichez-la sur la toile de jeu.
+Gérez la collision entre le serpent et la nourriture, ce qui permet au serpent de grandir et d'augmenter le score.
+
+Étape 5 : Intégration de l'ennemi
+
+Ajoutez un ennemi qui se déplace de manière autonome sur la toile de jeu.
+Gérez les collisions entre le serpent et l'ennemi. Si le serpent entre en collision avec l'ennemi, la partie se termine.
+
+Étape 6 : Conditions de victoire et de défaite
+
+Implément d'une condition de victoire, par exemple lorsque toutes les cases de la toile de jeu sont occupées par le serpent et les éléments.
+Implément d'une condition de défaite lorsque le serpent entre en collision avec l'ennemi ou lorsque le serpent entre en collision avec lui meme.
+
+Étape 7 : Niveaux de difficulté
+
+Ajout une option permettant au joueur de choisir le niveau de difficulté (facile, moyen, difficile).
+Ajustez la vitesse du jeu en fonction du niveau de difficulté sélectionné.
+
+Étape 8 : Effets sonores
+
+Intégrez des effets sonores pour améliorer l'immersion du joueur. Ajoutez des sons pour la collecte de nourriture, la collision avec l'ennemi et la
+victoire/défaite.
+
+Étape 9 : Capture d'écran
+
+Ajout d'une fonctionnalité permettant aux joueurs de prendre des captures d'écran du jeu, par exemple en appuyant sur un bouton dédié.
+
+Étape 11 : Pomme dorée
+
+Intégrer une pomme dorée spéciale qui apparaît tous les 10 repas de la nourriture normale et reste visible pendant 5 secondes.
+Ajout de 3 au segment du snake et au score
+
+conclusion :
+
+Ce guide étape par étape vous a montré comment créer un jeu Snake complet en C# avec Windows Forms.
+En suivant ces étapes, vous avez acquis des compétences en programmation de jeux vidéo, en gestion de déplacements, en gestion des collisions,
+et en ajout d'éléments spéciaux pour améliorer l'expérience de jeu. N'oubliez pas de personnaliser et d'ajouter votre touche unique à votre jeu Snake.
+
+
+ce que j'ai essayer de faire mais qui n'a pas marcher :
+- essayer de regler les sprites du corps du snake pour que leurs rotations ce fasse au meme endroit ou la tete du snake a tourner (mais apparemment c'est
+impossible a faire ne windows form app).

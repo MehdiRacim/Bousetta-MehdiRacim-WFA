@@ -8,8 +8,8 @@ namespace snake
 {
     internal class Circle
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public int x { get; set; } // cordonnée x de la pomme
+        public int y { get; set; } // cordonnée y de la pomme
 
         public Circle()
         {

@@ -1,4 +1,4 @@
-﻿// Créez une nouvelle classe Enemy.cs dans votre projet
+﻿
 using System;
 using System.Drawing;
 
@@ -7,10 +7,10 @@ namespace snake
 
     public class Enemy
     {
-        public int A { get; set; }
-        public int B { get; set; }
-        public string Direction { get; set; }
-        public Image Image { get; set; }
+        public int A { get; set; } // Coordonnée X de l'ennemi
+        public int B { get; set; } // Coordonnée Y de l'ennemi
+        public string Direction { get; set; } // Direction de l'ennemi
+        public Image Image { get; set; } // Image de l'ennemi 
 
 
         private int MaxWidth;

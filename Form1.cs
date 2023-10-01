@@ -220,8 +220,8 @@ namespace snake
                             GameOver();
                         }
                     }
-                    if(goldenApple.IsDisplayed)
-    {
+                    if (goldenApple.IsDisplayed)
+                    {
                         if (Snake[0].X == goldenApple.X && Snake[0].Y == goldenApple.Y)
                         {
                             EatGoldenApple();
@@ -504,7 +504,7 @@ namespace snake
                 {
                     return true; // La position est occupée par le serpent
                 }
-              
+
             }
             return false; // La position n'est pas occupée par le serpent
         }
@@ -552,7 +552,7 @@ namespace snake
                 };
 
                 Snake.Add(body);
-                
+
             }
 
             // Faites disparaître la pomme dorée
