@@ -220,6 +220,8 @@ namespace snake
                             GameOver();
                         }
                     }
+                    // collision avec goldenapple
+
                     if (goldenApple.IsDisplayed)
                     {
                         if (Snake[0].X == goldenApple.X && Snake[0].Y == goldenApple.Y)
