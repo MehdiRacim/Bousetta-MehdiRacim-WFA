@@ -10,10 +10,12 @@
 
   <ItemGroup>
     <None Remove="Resources\GameOver.wav" />
+    <None Remove="Resources\Snake-Baron.wav" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\GameOver.wav" />
+    <EmbeddedResource Include="Resources\Snake-Baron.wav" />
   </ItemGroup>
 
   <ItemGroup>

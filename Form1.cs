@@ -27,7 +27,7 @@ namespace snake
         private Enemy enemy;
         private SoundPlayer player;
         private SoundPlayer gameOverPlayer;
-        
+
         public int MaxWidth
         {
             get { return picCanvas.Width / Settings.Width - 1; }
@@ -37,7 +37,7 @@ namespace snake
         {
             get { return picCanvas.Height / Settings.Height - 1; }
         }
-        
+
 
         public Form1()
         {
@@ -50,7 +50,7 @@ namespace snake
 
 
         }
-        
+
 
         // Gestionnaires d'événements
         private void KeyIsDown(object sender, KeyEventArgs e)
@@ -133,7 +133,7 @@ namespace snake
                 picCanvas.Controls.Remove(caption);
             }
         }
-        
+
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
@@ -200,7 +200,7 @@ namespace snake
                     {
                         EatFood();
                     }
-                    
+
                     if (Snake[i].X == enemy.A && Snake[i].Y == enemy.B)
                     {
                         GameOver(); // Appel à la fonction GameOver en cas de collision avec l'ennemi
@@ -376,6 +376,13 @@ namespace snake
 
         private void EatFood()
         {
+            do
+            {
+                // Générez une nouvelle position pour la pomme
+                food.x = rand.Next(2, maxWidth);
+                food.y = rand.Next(2, maxHeight);
+            } while (IsPositionOccupiedBySnake(food.x, food.y));
+
             // Gestion de la collision avec la nourriture
             score += 1;
             txtScore.Text = "Score: " + score;
@@ -388,17 +395,14 @@ namespace snake
                 Direction = Snake[Snake.Count - 1].Direction, // Copiez la direction du dernier segment
                 Image = Properties.Resources.body_horizontal // Remplacez par l'image appropriée pour le corps
             };
-
             Snake.Add(body);
-
-            food = new Circle { x = rand.Next(2, maxWidth), y = rand.Next(2, maxHeight) };
             applesEatenSinceLastPassage++;
 
             // Vérifiez si 5 pommes ont été mangées
             if (applesEatenSinceLastPassage >= 5)
             {
                 // Réinitialisez la position et la direction de l'ennemi
-                enemy.InitializePositionAndDirection();
+                GenerateEnemyPosition();
 
                 // Réinitialisez le compteur de pommes mangées
                 applesEatenSinceLastPassage = 0;
@@ -423,7 +427,7 @@ namespace snake
                 txtHighScore.ForeColor = Color.Maroon;
                 txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
 
-                
+
                 gameOverPlayer.Play();
             }
             MessageBox.Show("Game Over! Your Score: " + score, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -467,6 +471,28 @@ namespace snake
 
             MessageBox.Show("Congratulations! You won the game!", "Game Won", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private bool IsPositionOccupiedBySnake(int x, int y)
+        {
+            foreach (var part in Snake)
+            {
+                if (part.X == x && part.Y == y)
+                {
+                    return true; // La position est occupée par le serpent
+                }
+              
+            }
+            return false; // La position n'est pas occupée par le serpent
+        }
+        private void GenerateEnemyPosition()
+        {
+            do
+            {
+                // Générez une nouvelle position pour l'ennemi
+                enemy.A = rand.Next(2, maxWidth);
+                enemy.B = rand.Next(2, maxHeight);
+            } while (IsPositionOccupiedBySnake(enemy.A, enemy.B));
+        }
+
 
 
 

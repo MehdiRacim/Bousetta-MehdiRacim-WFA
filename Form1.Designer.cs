@@ -36,6 +36,7 @@
             txtHighScore = new Label();
             gameTimer = new System.Windows.Forms.Timer(components);
             difficultyComboBox = new ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
             SuspendLayout();
             // 
@@ -108,11 +109,22 @@
             difficultyComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             difficultyComboBox.FormattingEnabled = true;
             difficultyComboBox.Items.AddRange(new object[] { "facile", "normal", "difficile" });
-            difficultyComboBox.Location = new Point(479, 248);
+            difficultyComboBox.Location = new Point(480, 275);
             difficultyComboBox.Name = "difficultyComboBox";
             difficultyComboBox.Size = new Size(151, 28);
             difficultyComboBox.TabIndex = 5;
             difficultyComboBox.Tag = "difficulté";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Algerian", 10.2F, FontStyle.Italic, GraphicsUnit.Point);
+            label1.ForeColor = Color.Green;
+            label1.Location = new Point(480, 240);
+            label1.Name = "label1";
+            label1.Size = new Size(230, 19);
+            label1.TabIndex = 6;
+            label1.Text = "choisir votre difficulté :";
             // 
             // Form1
             // 
@@ -120,6 +132,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
             ClientSize = new Size(731, 566);
+            Controls.Add(label1);
             Controls.Add(difficultyComboBox);
             Controls.Add(txtHighScore);
             Controls.Add(txtScore);
@@ -145,5 +158,6 @@
         private Label txtHighScore;
         private System.Windows.Forms.Timer gameTimer;
         private ComboBox difficultyComboBox;
+        private Label label1;
     }
 }
